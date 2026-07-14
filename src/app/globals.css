@@ -48,6 +48,23 @@
 }
 
 :root {
+  --dic-purple: #7A3CFF;
+  --dic-cyan: #00E5FF;
+  --dic-magenta: #FF2E88;
+  --dic-orange: #FF7A18;
+  --dic-yellow: #FFD400;
+
+  --dic-gradient-main: linear-gradient(135deg,
+      #7A3CFF,
+      #00E5FF);
+
+  --dic-gradient-warm: linear-gradient(135deg,
+      #FF2E88,
+      #FF7A18);
+
+  --dic-gradient-solar: linear-gradient(135deg,
+      #FF7A18,
+      #FFD400);
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -120,7 +137,59 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.dic-gradient-text {
+  background: var(--dic-gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dic-gradient-bg {
+  background: var(--dic-gradient-main);
+}
+
+.dic-glow {
+  box-shadow:
+    0 0 30px rgba(122, 60, 255, 0.3),
+    0 0 60px rgba(0, 229, 255, 0.15);
+}
+
+.dic-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.dic-bg-animated {
+
+  background: linear-gradient(-45deg,
+      #7A3CFF,
+      #00E5FF,
+      #FF2E88,
+      #FF7A18);
+
+  background-size: 400% 400%;
+
+  animation: dicGradient 15s ease infinite;
+
+}
+
+@keyframes dicGradient {
+
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+
 }
