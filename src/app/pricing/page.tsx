@@ -19,6 +19,7 @@ import {
     Layers3,
     LogIn,
     Mail,
+    MessageCircle,
     MessageSquare,
     MonitorSmartphone,
     Palette,
@@ -240,19 +241,39 @@ function supabasePublic() {
     );
 }
 
-function DreamInColorBackdrop() {
+function DreamInColorBackdrop({
+    image,
+    video,
+}: {
+    image?: string;
+    video?: string;
+}) {
     return (
         <>
-            <div className="absolute inset-0">
-                <img
-                    src="/hero-bg.jpg"
-                    alt=""
-                    aria-hidden="true"
-                    className="h-full w-full object-cover opacity-75"
-                />
+            <div className="absolute inset-0 overflow-hidden">
+                {video ? (
+                    <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        poster={image}
+                        className="h-full w-full object-cover object-center"
+                    >
+                        <source src={video} type="video/mp4" />
+                    </video>
+                ) : image ? (
+                    <img
+                        src={image}
+                        alt=""
+                        aria-hidden="true"
+                        className="h-full w-full object-cover object-center"
+                    />
+                ) : null}
             </div>
 
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(122,60,255,0.24),transparent_28%),radial-gradient(circle_at_top_right,rgba(0,229,255,0.18),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(255,46,136,0.18),transparent_28%),linear-gradient(180deg,rgba(9,9,20,0.82)_0%,rgba(13,13,24,0.94)_100%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(122,60,255,0.24),transparent_28%),radial-gradient(circle_at_top_right,rgba(0,229,255,0.18),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(255,46,136,0.18),transparent_28%),linear-gradient(180deg,rgba(9,9,20,0.78)_0%,rgba(13,13,24,0.92)_100%)]" />
 
             <div className="absolute inset-0 opacity-30">
                 <div className="absolute left-[8%] top-[12%] h-72 w-72 rounded-full border border-white/10" />
@@ -306,52 +327,69 @@ export default async function PricingPage() {
                     </Link>
 
                     <div className="flex items-center gap-2">
-                        <Button
-                            asChild
-                            variant="outline"
-                            className="cursor-pointer border-white/15 bg-white/5 text-white transition hover:bg-white/10 hover:text-white"
-                        >
-                            <Link
-                                href="/#projects"
-                                className="flex items-center gap-2"
-                            >
-                                <FolderKanban className="h-4 w-4" />
-                                Projects
-                            </Link>
-                        </Button>
+    <Button
+        asChild
+        variant="outline"
+        className="cursor-pointer border-white/15 bg-white/5 text-white transition hover:bg-white/10 hover:text-white"
+    >
+        <Link
+            href="/pricing"
+            className="flex items-center gap-2"
+        >
+            <Briefcase className="h-4 w-4" />
+            Pricing
+        </Link>
+    </Button>
 
-                        <Button
-                            asChild
-                            variant="outline"
-                            className="cursor-pointer border-white/15 bg-white/5 text-white transition hover:bg-white/10 hover:text-white"
-                        >
-                            <Link
-                                href="/#artwork"
-                                className="flex items-center gap-2"
-                            >
-                                <ImageIcon className="h-4 w-4" />
-                                Artwork
-                            </Link>
-                        </Button>
+    <Button
+        asChild
+        variant="outline"
+        className="cursor-pointer border-white/15 bg-white/5 text-white transition hover:bg-white/10 hover:text-white"
+    >
+        <Link
+            href="/#projects"
+            className="flex items-center gap-2"
+        >
+            <FolderKanban className="h-4 w-4" />
+            Projects
+        </Link>
+    </Button>
 
-                        <Button
-                            asChild
-                            className="cursor-pointer border-0 bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white shadow-md shadow-fuchsia-500/20 transition hover:from-fuchsia-500/85 hover:to-purple-600/85"
-                        >
-                            <Link
-                                href="/login"
-                                className="flex items-center gap-2"
-                            >
-                                <LogIn className="h-4 w-4" />
-                                Enter Portal
-                            </Link>
-                        </Button>
-                    </div>
+    <Button
+        asChild
+        variant="outline"
+        className="cursor-pointer border-white/15 bg-white/5 text-white transition hover:bg-white/10 hover:text-white"
+    >
+        <Link
+            href="/#artwork"
+            className="flex items-center gap-2"
+        >
+            <ImageIcon className="h-4 w-4" />
+            Artwork
+        </Link>
+    </Button>
+
+    <Button
+        asChild
+        className="cursor-pointer border-0 bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white shadow-md shadow-fuchsia-500/20 transition hover:from-fuchsia-500/85 hover:to-purple-600/85"
+    >
+        <Link
+            href="/login"
+            className="flex items-center gap-2"
+        >
+            <LogIn className="h-4 w-4" />
+            Enter Portal
+        </Link>
+    </Button>
+</div>
                 </div>
             </header>
 
             <section className="relative overflow-hidden text-white">
-                <DreamInColorBackdrop />
+                <DreamInColorBackdrop
+                    video="/pricing-hero-video.mp4"
+                    image="/pricing-hero.jpg"
+                />
 
                 <div className="relative mx-auto max-w-6xl px-4 py-14 md:py-20">
                     <div className="max-w-3xl">
@@ -522,7 +560,7 @@ export default async function PricingPage() {
             )}
         </div>
 
-        <div className="mt-auto pt-5">
+        <div className="mt-auto space-y-2 pt-5">
             <Button
                 asChild
                 className={`w-full cursor-pointer border-0 bg-gradient-to-r ${iconOption.gradient} text-white shadow-md ${iconOption.glow} transition hover:opacity-90`}
@@ -537,6 +575,24 @@ export default async function PricingPage() {
                     Request This Package
                 </Link>
             </Button>
+
+            <Button
+                asChild
+                variant="outline"
+                className="w-full cursor-pointer border-emerald-500/30 bg-emerald-50 text-emerald-700 transition hover:border-emerald-500 hover:bg-emerald-100 hover:text-emerald-800"
+            >
+                <a
+                    href={`https://wa.me/27813408126?text=${encodeURIComponent(
+                        `Hello Dream in Color Studios. I would like to enquire about the following package:\n\nPackage: ${pricingPackage.name}\nPrice: ${pricingPackage.price ?? "Custom"}\n\nPlease send me more information about this package.`
+                    )}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-center gap-2"
+                >
+                    <MessageCircle className="h-4 w-4" />
+                    Enquire on WhatsApp
+                </a>
+            </Button>
         </div>
     </CardContent>
 </Card>
@@ -548,7 +604,7 @@ export default async function PricingPage() {
             </section>
 
             <section className="relative overflow-hidden text-white">
-                <DreamInColorBackdrop />
+                <DreamInColorBackdrop image="/pricing-contact-bg.jpg" />
 
                 <div className="relative mx-auto max-w-6xl px-4 py-12">
                     <div className="rounded-3xl border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur-xl md:p-8">

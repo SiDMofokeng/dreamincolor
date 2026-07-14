@@ -52,34 +52,46 @@ function normalizeItemType(v: string | null | undefined) {
   return String(v ?? "project").trim().toLowerCase() === "artwork" ? "artwork" : "project";
 }
 
-function DreamInColorBackdrop() {
+function DreamInColorBackdrop({
+  image,
+  video,
+}: {
+  image?: string;
+  video?: string;
+}) {
   return (
     <>
-      {/* Background image */}
-      <div className="absolute inset-0">
-        <img
-          src="/hero-bg.jpg"
-          alt=""
-          aria-hidden="true"
-          className="h-full w-full object-cover opacity-75"
-        />
+      <div className="absolute inset-0 overflow-hidden">
+        {video ? (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={image}
+            className="h-full w-full object-cover object-center"
+          >
+            <source src={video} type="video/mp4" />
+          </video>
+        ) : image ? (
+          <img
+            src={image}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover object-center"
+          />
+        ) : null}
       </div>
 
-      {/* Dark + color atmospheric overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(122,60,255,0.24),transparent_28%),radial-gradient(circle_at_top_right,rgba(0,229,255,0.18),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(255,46,136,0.18),transparent_28%),linear-gradient(180deg,rgba(9,9,20,0.82)_0%,rgba(13,13,24,0.92)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(122,60,255,0.24),transparent_28%),radial-gradient(circle_at_top_right,rgba(0,229,255,0.18),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(255,46,136,0.18),transparent_28%),linear-gradient(180deg,rgba(9,9,20,0.78)_0%,rgba(13,13,24,0.90)_100%)]" />
 
-      {/* Orbit / system lines */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute left-[8%] top-[12%] h-72 w-72 rounded-full border border-white/10" />
         <div className="absolute left-[14%] top-[18%] h-48 w-48 rounded-full border border-white/10" />
         <div className="absolute right-[10%] top-[16%] h-80 w-80 rounded-full border border-white/10" />
         <div className="absolute bottom-[12%] left-[18%] h-56 w-56 rounded-full border border-white/10" />
         <div className="absolute bottom-[10%] right-[14%] h-40 w-40 rounded-full border border-white/10" />
-
-        <div className="absolute left-[20%] top-[42%] h-3 w-3 rounded-sm bg-white/60" />
-        <div className="absolute left-[34%] top-[24%] h-2 w-2 rounded-full bg-cyan-300/80" />
-        <div className="absolute right-[28%] top-[34%] h-3 w-3 rounded-full bg-fuchsia-400/70" />
-        <div className="absolute bottom-[24%] right-[22%] h-3 w-3 rounded-sm bg-white/50" />
       </div>
     </>
   );
@@ -151,6 +163,17 @@ export default async function LandingPage() {
 
           <div className="flex items-center gap-2">
             <Button
+  asChild
+  variant="outline"
+  className="border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+>
+  <Link href="/pricing" className="flex items-center gap-2">
+    <Briefcase className="h-4 w-4" />
+    Pricing
+  </Link>
+</Button>
+
+            <Button
               asChild
               variant="outline"
               className="border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-white"
@@ -186,7 +209,9 @@ export default async function LandingPage() {
       </header>
 
       <section className="relative overflow-hidden text-white">
-        <DreamInColorBackdrop />
+        <DreamInColorBackdrop
+  video="/hero-video.mp4"
+/>
         <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
           <div className="grid gap-8 md:grid-cols-2 md:items-center">
             <div>
@@ -342,13 +367,44 @@ export default async function LandingPage() {
               </Card>
             ) : (
               projects.map((x) => (
-                <Card key={x.id}>
+                <Card
+  key={x.id}
+  className="
+    group
+    overflow-hidden
+    border-0
+    bg-gradient-to-br
+    from-white
+    via-white
+    to-slate-50
+    shadow-md
+    transition-all
+    duration-300
+    hover:-translate-y-2
+    hover:shadow-2xl
+    hover:shadow-fuchsia-500/20
+  "
+>
                   <CardContent className="p-5">
                     <div className="flex items-start justify-between gap-3">
                       <div className="text-sm font-semibold">{x.title}</div>
                       <FolderKanban className="mt-0.5 h-4 w-4 text-muted-foreground" />
                     </div>
-                    <div className="mt-1 text-xs text-muted-foreground">{x.category ?? "—"}</div>
+                    <Badge
+  className="
+    mt-2
+    w-fit
+    border-0
+    bg-gradient-to-r
+    from-fuchsia-500
+    via-purple-500
+    to-cyan-500
+    text-white
+    shadow-lg
+  "
+>
+  {x.category ?? "Project"}
+</Badge>
                     <div className="mt-2 text-sm text-muted-foreground">{x.description ?? ""}</div>
 
                     <div className="mt-4 h-40 overflow-hidden rounded-lg border bg-muted/40">
@@ -386,7 +442,7 @@ export default async function LandingPage() {
 
       <section id="contact" className="relative overflow-hidden text-white">
         <div className="absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-fuchsia-500 via-purple-500 to-cyan-400" />
-        <DreamInColorBackdrop />
+        <DreamInColorBackdrop image="/contact-creative-workspace.jpg" />
         <div className="relative mx-auto max-w-6xl px-4 py-12">
           <div className="grid gap-6 md:grid-cols-2 md:items-start">
             <div>
