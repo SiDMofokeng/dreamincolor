@@ -132,7 +132,13 @@ export default async function EditProjectPage({ params }: PageProps) {
                 </CardHeader>
 
                 <CardContent className="space-y-6">
-                    <form action={updateProjectAction} className="space-y-4">
+                    <form
+    action={async (formData: FormData) => {
+        "use server";
+        await updateProjectAction(formData);
+    }}
+    className="space-y-4"
+>
                         <div className="space-y-2">
                             <Label htmlFor="title">Title</Label>
                             <Input id="title" name="title" defaultValue={project.title} required />

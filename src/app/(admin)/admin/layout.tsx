@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 // FILE: src/app/(admin)/admin/layout.tsx
 import type { ReactNode } from "react";
 import Sidebar from "@/components/admin/sidebar";
@@ -33,7 +35,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 <Sidebar />
 
                 <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-                    <Topbar />
+                    <Suspense fallback={null}>
+    <Topbar />
+</Suspense>
 
                     <main className="min-w-0 flex-1 overflow-y-auto p-4 md:p-6">
                         {children}

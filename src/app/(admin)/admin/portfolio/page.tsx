@@ -172,7 +172,13 @@ export default async function AdminPortfolioPage() {
                 </CardHeader>
 
                 <CardContent>
-                    <form action={createPortfolioAction} className="space-y-4">
+                    <form
+    action={async (formData: FormData) => {
+        "use server";
+        await createPortfolioAction(formData);
+    }}
+    className="space-y-4"
+>
                         <div className="space-y-2">
                             <Label htmlFor="title">Title</Label>
                             <Input id="title" name="title" placeholder="e.g. Brand identity + website" required />

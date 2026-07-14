@@ -1,8 +1,8 @@
 // FILE: src/app/(auth)/login/page.tsx
 "use client";
 
-import { useMemo, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
     ArrowLeft,
@@ -18,12 +18,16 @@ import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
     const router = useRouter();
-    const params = useSearchParams();
+const [nextPath, setNextPath] = useState("/admin");
 
-    const nextPath = useMemo(() => {
-        const n = params.get("next");
-        return n && n.startsWith("/") ? n : "/admin";
-    }, [params]);
+useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get("next");
+
+    if (next && next.startsWith("/") && !next.startsWith("//")) {
+        setNextPath(next);
+    }
+}, []);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

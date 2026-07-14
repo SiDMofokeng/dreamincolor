@@ -225,7 +225,13 @@ export default async function EditPortfolioItemPage({ params }: PageProps) {
                 </CardHeader>
 
                 <CardContent className="space-y-6">
-                    <form action={updateItemAction} className="space-y-4">
+                    <form
+    action={async (formData: FormData) => {
+        "use server";
+        await updateItemAction(formData);
+    }}
+    className="space-y-4"
+>
                         <div className="grid gap-4 sm:grid-cols-2">
                             <div className="space-y-2">
                                 <Label htmlFor="title">Title</Label>
@@ -323,7 +329,13 @@ export default async function EditPortfolioItemPage({ params }: PageProps) {
                     </CardHeader>
 
                     <CardContent className="space-y-6">
-                        <form action={addArtworkImageAction} className="grid gap-4 md:grid-cols-[1fr_160px_auto]">
+                        <form
+    action={async (formData: FormData) => {
+        "use server";
+        await addArtworkImageAction(formData);
+    }}
+    className="grid gap-4 md:grid-cols-[1fr_160px_auto]"
+>
                             <div className="space-y-2">
                                 <Label htmlFor="art_image_url">Image URL</Label>
                                 <Input id="art_image_url" name="image_url" placeholder="https://..." required />

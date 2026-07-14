@@ -173,7 +173,13 @@ export default async function EditInvoicePage({ params }: PageProps) {
                 </CardHeader>
 
                 <CardContent className="space-y-6">
-                    <form action={updateInvoiceAction} className="space-y-4">
+                    <form
+    action={async (formData: FormData) => {
+        "use server";
+        await updateInvoiceAction(formData);
+    }}
+    className="space-y-4"
+>
                         <div className="grid gap-4 sm:grid-cols-2">
                             <div className="space-y-2">
                                 <Label>Invoice Number</Label>

@@ -133,7 +133,13 @@ export default async function SettingsPage() {
                 </CardHeader>
 
                 <CardContent>
-                    <form action={saveProfileAction} className="space-y-4">
+                    <form
+    action={async (formData: FormData) => {
+        "use server";
+        await saveProfileAction(formData);
+    }}
+    className="space-y-4"
+>
                         <div className="space-y-2">
                             <Label htmlFor="company_name">Company Name</Label>
                             <Input

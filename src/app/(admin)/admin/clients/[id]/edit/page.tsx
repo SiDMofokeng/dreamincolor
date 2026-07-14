@@ -139,7 +139,13 @@ export default async function EditClientPage({ params }: PageProps) {
                 </CardHeader>
 
                 <CardContent className="space-y-6">
-                    <form action={updateClientAction} className="space-y-4">
+                    <form
+    action={async (formData: FormData) => {
+        "use server";
+        await updateClientAction(formData);
+    }}
+    className="space-y-4"
+>
                         <div className="space-y-2">
                             <Label htmlFor="name">Client / Company Name</Label>
                             <Input id="name" name="name" defaultValue={client.name} required />

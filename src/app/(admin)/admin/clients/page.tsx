@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -28,7 +30,7 @@ type ClientRow = {
     contact_person: string | null;
     email: string | null;
     phone: string | null;
-    notes?: string | null;
+    notes: string | null;
     status: string;
     created_at: string;
 };
@@ -189,7 +191,9 @@ export default async function ClientsPage({ searchParams }: PageProps) {
 
     let query = supabase
         .from("clients")
-        .select("id,name,contact_person,email,phone,status,created_at", { count: "exact" })
+        .select("id,name,contact_person,email,phone,notes,status,created_at", {
+    count: "exact",
+})
         .order("created_at", { ascending: false });
 
     if (q) {
@@ -245,10 +249,13 @@ export default async function ClientsPage({ searchParams }: PageProps) {
                         <p className="mt-1 text-sm text-white/65">Manage your client records.</p>
                     </div>
 
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
-                        <ClientsSearch initialQ={q} />
-                        <AddClientDialog onCreate={createClientAction} />
-                    </div>
+<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+    <Suspense fallback={<div className="h-10 w-80" />}>
+        <ClientsSearch initialQ={q} />
+    </Suspense>
+
+    <AddClientDialog onCreate={createClientAction} />
+</div>
                 </div>
             </div>
 

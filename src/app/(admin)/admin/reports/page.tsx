@@ -663,10 +663,15 @@ export default async function ReportsPage({ searchParams }: PageProps) {
                             </a>
                         </Button>
 
-                        <form action={generateReportAction}>
-                            <input type="hidden" name="period_start" value={selectedStart} />
-                            <ReportsGenerateButton isClosed={isClosed} />
-                        </form>
+                        <form
+    action={async (formData: FormData) => {
+        "use server";
+        await generateReportAction(formData);
+    }}
+>
+    <input type="hidden" name="period_start" value={selectedStart} />
+    <ReportsGenerateButton isClosed={isClosed} />
+</form>
                     </div>
                 </CardContent>
             </Card>
